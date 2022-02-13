@@ -97,18 +97,22 @@ window.addEventListener('DOMContentLoaded', () => {
           modalTrigger = document.querySelectorAll("[data-modal]"),
           modalClose = document.querySelector("[data-modal-close]");
 
-    modalTrigger.forEach(btn => {
-        btn.addEventListener("click", () => {
-            modal.classList.add("show");
-            document.body.style.overflow = "hidden";
-        })
-    });
-
+          
+    function openModal() {
+        modal.classList.add("show");
+        document.body.style.overflow = "hidden";
+        clearInterval(modalTimerId);
+    }
+    
     function closeModal() {
         modal.classList.remove("show");
         document.body.style.overflow = "";
     }
-    
+            
+    modalTrigger.forEach(btn => {
+        btn.addEventListener("click", openModal)
+    });
+
     modal.addEventListener("click", (e) => {
         if(e.target === modal || e.target === modalClose) {
             closeModal();
@@ -119,7 +123,19 @@ window.addEventListener('DOMContentLoaded', () => {
         if(e.code === "Escape" && modal.classList.contains("show")) {
             closeModal();
         }
-    })
+    });
+
+    const modalTimerId = setTimeout(openModal, 3000);
+
+    function showModalByScroll() {
+        // console.log(window.pageYOffset + document.documentElement.clientHeight);
+        if(window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+            openModal();
+            window.removeEventListener("scroll", showModalByScroll);
+        }
+    }
+
+    window.addEventListener("scroll", showModalByScroll);
     // модалка конец
     
 });
