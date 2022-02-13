@@ -1,11 +1,24 @@
 .box {
-box-sizing: border-box;
+  box-sizing: border-box;
   width: 400px;
   height: 350px;
+  transition: height 0.5s linear;
   overflow: scroll;
   margin: 0 auto;
   margin-top: 50px;
   padding: 10px;
+  position: relative;
+}
+
+.box::after {
+  content: '';
+  position: absolute;
+  display: flex;
+  background-color: #ccc;
+  width: 100px;
+  height: 100px;
+  right: 0;
+  top: 0;
 }
 button {
   width: 100px;
