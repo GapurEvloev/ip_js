@@ -91,5 +91,35 @@ window.addEventListener('DOMContentLoaded', () => {
 
     setClock(".timer", deadline);
     // Таймер конец
+
+    // модалка начало
+    const modal = document.querySelector(".modal"),
+          modalTrigger = document.querySelectorAll("[data-modal]"),
+          modalClose = document.querySelector("[data-modal-close]");
+
+    modalTrigger.forEach(btn => {
+        btn.addEventListener("click", () => {
+            modal.classList.add("show");
+            document.body.style.overflow = "hidden";
+        })
+    });
+
+    function closeModal() {
+        modal.classList.remove("show");
+        document.body.style.overflow = "";
+    }
+    
+    modal.addEventListener("click", (e) => {
+        if(e.target === modal || e.target === modalClose) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if(e.code === "Escape" && modal.classList.contains("show")) {
+            closeModal();
+        }
+    })
+    // модалка конец
     
 });
