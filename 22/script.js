@@ -40,6 +40,16 @@ let numbers = {
     }
 };
 
+const numbers2 = {...numbers};
+
+numbers.a = 100;
+console.log(numbers);
+console.log(numbers2);
+
+numbers.c.x = 20;
+console.log(numbers);
+console.log(numbers2);
+
 const newNumbers = copyF(numbers);
 newNumbers.a = 100;
 newNumbers.c.x = 20;
@@ -53,3 +63,29 @@ const addObj = {
 
 console.log(Object.assign(numbers, addObj));
 const addClone = Object.assign({}, addObj);
+
+const oldArray = ['a', 'b', 'c', 'd'];
+const newArray = oldArray.slice();
+newArray.push("dd");
+console.log(oldArray);
+console.log(newArray);
+
+const video = ["youtube", "vimeo", "twitch"],
+      blogs = ["livejournal", "medium", "devto"],
+      internet = [...video, ...blogs, "twitter", "facebook"];
+
+console.log(internet);
+
+
+function log(a, b, c) {
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
+
+const nums = [1, 2, 3];
+
+log(...nums);
+
+const array = ["a", "b", "c"];
+const newArray2 = [...array];
