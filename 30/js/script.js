@@ -49,3 +49,12 @@ movieDB.movies.forEach((item, i) => {
     moviesItem.append(moviesItemDelete);
     moviesList.append(moviesItem);
 });
+
+// // alternative variant
+// movieDB.movies.forEach((item, i) => {
+//     moviesList.innerHTML += `
+//         <li class="promo__interactive-item">${i+ 1}. ${item}
+//             <div class="delete"></div>
+//         </li>
+//     `;
+// });
