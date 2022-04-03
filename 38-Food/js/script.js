@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         tabs.forEach(tab => {
             tab.classList.remove('tabheader__item_active');
-        })
+        });
     }
 
     function showTabContent(i = 0) {
@@ -33,15 +33,15 @@ window.addEventListener('DOMContentLoaded', () => {
                     hideTabContent();
                     showTabContent(i);
                 }
-            })
+            });
         }
     });
     // Табы конец
 
     // Таймер начало
-    const deadline = "2022-05-11";
+    const deadline = "2022-05-11"; // дата окончания таймера
 
-    function getTimeRemaining(endtime) {
+    function getTimeRemaining(endtime) { // расчет оставшегося времени
         const t = Date.parse(endtime) - Date.parse(new Date()),
               days = Math.floor(t / (1000 * 60 * 60 * 24)),
               hours = Math.floor(t / (1000 * 60 * 60) % 24),
@@ -54,10 +54,10 @@ window.addEventListener('DOMContentLoaded', () => {
             hours,
             minutes,
             seconds
-        }
+        };
     }
     
-    function getZero(num) {
+    function getZero(num) { // добавление нуля к однозначным цифрам
         if(num >= 0 && num < 10) {
             return `0${num}`;
         } else {
@@ -73,7 +73,7 @@ window.addEventListener('DOMContentLoaded', () => {
               seconds = timer.querySelector("#seconds"),
               timeInterval = setInterval(updateClock, 1000);
         
-        updateClock();
+        updateClock(); // единичный запуск чтобы не было скачков 
 
         function updateClock() {
             const t = getTimeRemaining(endtime);
@@ -96,21 +96,24 @@ window.addEventListener('DOMContentLoaded', () => {
     const modal = document.querySelector(".modal"),
           modalTrigger = document.querySelectorAll("[data-modal]"),
           modalClose = document.querySelector("[data-modal-close]");
-
           
     function openModal() {
+        let scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
         modal.classList.add("show");
         document.body.style.overflow = "hidden";
-        clearInterval(modalTimerId);
+        document.body.style.paddingRight = scrollBarWidth+"px";
+        clearInterval(modalTimerId); // останавливаем таймаут в случае открытия модалки
+        window.removeEventListener("scroll", showModalByScroll); // удаляем слушатель по скроллу в случае открытия
     }
     
     function closeModal() {
         modal.classList.remove("show");
         document.body.style.overflow = "";
+        document.body.style.paddingRight = 0;
     }
             
     modalTrigger.forEach(btn => {
-        btn.addEventListener("click", openModal)
+        btn.addEventListener("click", openModal);
     });
 
     modal.addEventListener("click", (e) => {
@@ -125,10 +128,10 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const modalTimerId = setTimeout(openModal, 3000);
+    const modalTimerId = setTimeout(openModal, 3000); // запуск модалки после 3 секунд после загрузки
 
     function showModalByScroll() {
-        // console.log(window.pageYOffset + document.documentElement.clientHeight);
+        // console.log(window.pageYOffset + document.documentElement.clientHeight, document.documentElement.scrollHeight);
         if(window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
             openModal();
             window.removeEventListener("scroll", showModalByScroll);

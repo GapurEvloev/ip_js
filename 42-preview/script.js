@@ -1,30 +1,46 @@
 'use strict';
 
-const box = document.querySelector(".box"),
-      btn = document.querySelector("button");
+// document 
+// windon
+// screen
 
-const width = box.clientWidth;
-const height = box.clientHeight;
+const box = document.querySelector('.box'),
+      btn = document.querySelector('button');
 
-const offsetWidth = box.offsetWidth;
-const offsetHeight = box.offsetHeight;
+const boxClientWidth = box.clientWidth;
+const boxClientHeight = box.clientHeight;
+const boxOffsetWidth = box.offsetWidth;
+const boxOffsetHeight = box.offsetHeight;
 
-const scrollHeight = box.scrollHeight;
-const scrollWidth = box.scrollWidth;
+const boxScrollWidth = box.scrollWidth;
+const boxScrollHeight = box.scrollHeight;
+const boxScrollOffsetWidth = box.scrollOffsetWidth;
+const boxScrollOffsetHeight = box.scrollOffsetHeight;
 
-// console.log(offsetWidth, offsetHeight, scrollHeight, scrollWidth)
+console.log("boxClientWidth", boxClientWidth);
+console.log("boxClientHeight", boxClientHeight);
+console.log("boxOffsetWidth", boxOffsetWidth);
+console.log("boxOffsetHeight", boxOffsetHeight);
+console.log("boxScrollWidth", boxScrollWidth);
+console.log("boxScrollHeight", boxScrollHeight);
 
-btn.addEventListener('click', () => {
-    box.style.height = scrollHeight + "px";
-    // console.log(box.scrollTop)
-    console.log(box.getBoundingClientRect())
-    console.log(document.documentElement.scrollTop);
+btn.addEventListener("click", () => {
+    box.style.height = box.scrollHeight + "px";
+    // console.log(box.scrollTop = 0);
 });
 
-const style = window.getComputedStyle(box, ":after");
+console.log(box.getBoundingClientRect());
+console.log(box.getBoundingClientRect().top);
+console.log(box.getBoundingClientRect().left);
 
-// console.log(style.width);
-console.log(document.documentElement.scrollTop);
+const style = window.getComputedStyle(box);
+console.log(style);
+console.log(style.display);
+console.log(style.width);
+console.log(style.background);
 
-window.scrollBy(0, 400) // проскроллить относительрно текущей позиции на 400 
-window.scrollTo(0, 400) // относильно верха страницы
+console.log(document.documentElement.scrollTop); // работает 
+// console.log(window.scrollTop); // не работает
+
+console.log(window.scrollBy(0, 400));
+console.log(window.scrollTo(0, 400));
