@@ -36,7 +36,7 @@ function rememberMyFilms() {
   for (let i = 0; i < 2; i++) {
     const a = prompt("Один из последних просмотренных фильмов?", ""),
       b = +prompt("На сколько оцените его?", "");
-  
+
     if (a.length < 50 && a !== null && b !== null && a !== "" && b !== "") {
       personalMovieDB.movies[a] = b;
     } else {
@@ -69,7 +69,90 @@ showMyDB(personalMovieDB.privat);
 
 function writeYourGenres() {
   for (let i = 0; i < 3; i++) {
-    personalMovieDB.genres[i] = prompt(`Ваш любимый жанр под номером ${i+1}`, "");
+    personalMovieDB.genres[i] = prompt(`Ваш любимый жанр под номером ${i + 1}`, "");
   }
 }
 writeYourGenres();
+
+//
+function calculateVolumeAndArea(length) {
+  if (isNaN(length) || length < 0 || !Number.isInteger(length)) {
+    return "При вычислении произошла ошибка";
+  }
+  let s = 6 * (length * length);
+  let v = length * length * length;
+
+  return `Объем куба: ${v}, площадь всей поверхности: ${s}`;
+}
+
+function getCoupeNumber(num) {
+  if (isNaN(num) || num < 0 || !Number.isInteger(num)) {
+    return "Ошибка. Проверьте правильность введенного номера места";
+  }
+  if (num === 0 || num > 36) {
+    return "Таких мест в вагоне не существует";
+  }
+  return Math.ceil(num / 4);
+}
+
+// Место для первой задачи
+function getTimeFromMinutes(mins) {
+  if (mins < 0 || isNaN(mins) || !Number.isInteger(mins)) {
+    return "Ошибка, проверьте данные";
+  }
+
+  let hours = Math.floor(mins / 60);
+  let minutes = mins % 60;
+  let hoursWord;
+  let minutesWord = "минут";
+
+  if (hours === 0 || hours >= 5) {
+    hoursWord = "часов";
+  } else if (hours > 1 && hours < 5) {
+    hoursWord = "часа";
+  } else {
+    hoursWord = "час";
+  }
+
+  return `Это ${hours} ${hoursWord} и ${minutes} ${minutesWord}`;
+}
+console.log(getTimeFromMinutes(150));
+
+// Место для второй задачи
+function findMaxNumber(a, b, c, d) {
+  if (
+    typeof a !== "number" ||
+    typeof b !== "number" ||
+    typeof c !== "number" ||
+    typeof d !== "number"
+  ) {
+    return 0;
+  }
+  return Math.max(a, b, c, d);
+}
+
+// Fibonacci number 
+function fib(num) {
+  if (typeof num !== "number" || num <= 0 || !Number.isInteger(num)) {
+    return "";
+  }
+
+  let res = "";
+  let first = 0;
+  let second = 1;
+  
+  for (let i = 0; i < num; i++) {
+    if (i + 1 === num) {
+      res += `${first}`;
+    } else {
+      res += `${first} `;
+    }
+    let third = first + second;
+    first = second;
+    second = third;
+  }
+
+  return res;
+}
+
+console.log(fib(4));
