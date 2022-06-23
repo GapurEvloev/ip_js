@@ -103,63 +103,102 @@
 // // }
 // // 58 end
 
-// 59 start
-const user59 = {
-    name: "Alex",
-    surname: "Smith",
-    birthday: "20/04/1993",
-    showMyPublicData () {
-        console.log(`${this.name} ${this.surname}`);
-    }
-};
-
-const shops = [
-    {rise: 500},
-    {oil: 200},
-    {bread: 50},
-];
-
-const budget = [4000, 500, 1500, 2500];
-
-const mapData = new Map([
-    [{paper: 400}, 3000]
-]);
-
-shops.forEach((shop, i) => {
-    mapData.set(shop, budget[i]);
-});
-
-// =======
-const goods = [];
-// for (const shop of mapData.keys()) {
-//     goods.push(Object.keys(shop)[0]);
-// }
-// console.log(goods);
+// // 59 start
+// const user59 = {
+//     name: "Alex",
+//     surname: "Smith",
+//     birthday: "20/04/1993",
+//     showMyPublicData () {
+//         console.log(`${this.name} ${this.surname}`);
+//     }
+// };
+//
+// const shops = [
+//     {rise: 500},
+//     {oil: 200},
+//     {bread: 50},
+// ];
+//
+// const budget = [4000, 500, 1500, 2500];
+//
+// const mapData = new Map([
+//     [{paper: 400}, 3000]
+// ]);
+//
+// shops.forEach((shop, i) => {
+//     mapData.set(shop, budget[i]);
+// });
 //
 // // =======
-// for (const price of mapData.values()) {
-//     console.log(price);
-// }
+// const goods = [];
+// // for (const shop of mapData.keys()) {
+// //     goods.push(Object.keys(shop)[0]);
+// // }
+// // console.log(goods);
+// //
+// // // =======
+// // for (const price of mapData.values()) {
+// //     console.log(price);
+// // }
+// //
+// // // =======
+// // for (const [shop, price] of mapData.entries()) {
+// //     console.log(shop, price);
+// // }
 //
-// // =======
-// for (const [shop, price] of mapData.entries()) {
-//     console.log(shop, price);
+// mapData.forEach((value, key, mapData) => {
+//     console.log(key, value);
+// });
+//
+// // mapData.set(shops[0], 500)
+// //     .set(shops[1], 1500)
+// //     .set(shops[2], 2500);
+//
+// // console.log(mapData);
+// // console.log(mapData.get(shops[0]));
+// // console.log(mapData.has(shops[0]));
+//
+// // mapData.delete(key);
+// // mapData.clear();
+// // mapData.size;
+//
+// // 59 end
+
+
+// 60 start
+const arr60 = [1, 1, 1, 33, 33, 22, 44, 5, 11, 11, 333, 333, 32];
+const names60 = ["alex", "diana", "lisa", "lisa", "mari", "kim", "kim"];
+
+function unique(arr) {
+    return Array.from(new Set(arr));
+}
+
+console.log(unique(names60));
+
+const set60 = new Set(arr60);
+const setNames60 = new Set(names60);
+
+// set60.add("Ivan");
+// // set60.delete(value);
+// // set60.has(vale);
+// // set60.clear();
+// // set60.size;
+//
+// // =================
+// for (const value of set60) {
+//     console.log(value);
 // }
+// // =================
 
-mapData.forEach((value, key, mapData) => {
-    console.log(key, value);
-});
+// // =================
+// setNames60.forEach((value, valueAgain, set60) => {
+//     console.log(value, valueAgain);
+// });
+//
+// console.log(setNames60.values());
+// console.log(setNames60.keys());
+// console.log(setNames60.entries());
+// // =================
 
-// mapData.set(shops[0], 500)
-//     .set(shops[1], 1500)
-//     .set(shops[2], 2500);
-
-// console.log(mapData);
-// console.log(mapData.get(shops[0]));
-// console.log(mapData.has(shops[0]));
-
-// mapData.delete(key);
-// mapData.clear();
-// mapData.size;
-
-// 59 end
+// console.log(set60);
+// 60 end
