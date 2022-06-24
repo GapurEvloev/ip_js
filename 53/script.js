@@ -165,40 +165,100 @@
 // // 59 end
 
 
-// 60 start
-const arr60 = [1, 1, 1, 33, 33, 22, 44, 5, 11, 11, 333, 333, 32];
-const names60 = ["alex", "diana", "lisa", "lisa", "mari", "kim", "kim"];
+// // 60 start
+// const arr60 = [1, 1, 1, 33, 33, 22, 44, 5, 11, 11, 333, 333, 32];
+// const names60 = ["alex", "diana", "lisa", "lisa", "mari", "kim", "kim"];
+//
+// function unique(arr) {
+//     return Array.from(new Set(arr));
+// }
+//
+// console.log(unique(names60));
+//
+// const set60 = new Set(arr60);
+// const setNames60 = new Set(names60);
+//
+// // set60.add("Ivan");
+// // // set60.delete(value);
+// // // set60.has(vale);
+// // // set60.clear();
+// // // set60.size;
+// //
+// // // =================
+// // for (const value of set60) {
+// //     console.log(value);
+// // }
+// // // =================
+//
+// // // =================
+// // setNames60.forEach((value, valueAgain, set60) => {
+// //     console.log(value, valueAgain);
+// // });
+// //
+// // console.log(setNames60.values());
+// // console.log(setNames60.keys());
+// // console.log(setNames60.entries());
+// // // =================
+//
+// // console.log(set60);
+// // 60 end
 
-function unique(arr) {
-    return Array.from(new Set(arr));
+
+// function amountOfPages(summary){
+//     let result = '';
+//     let n = 0;
+//
+//     for (let i = 1; i <= summary; i++) {
+//         result += i;
+//         if (result.length === summary) {
+//             n = i;
+//             break;
+//         }
+//     }
+//     return n;
+// }
+//
+// console.log(amountOfPages(15));
+
+
+// function isPangram(string) {
+//     let stringArr = Array.from(new Set(string.toLowerCase()));
+//     stringArr = stringArr.filter(item => {
+//         return item !== " ";
+//     });
+//
+//     return (stringArr.length === 26);
+// }
+//
+// console.log(isPangram("The quick brown fox jumps over the lazy dog"));
+
+function deepCount2(a){
+    let count = 0;
+    if (a.length === 0) {
+        return 0;
+    }
+    for (const key in a) {
+        if(Array.isArray(a[key])) {
+            count++;
+            deepCount2(a[key]);
+        }
+        count++;
+    }
+    return count;
 }
 
-console.log(unique(names60));
+// Вариант с циклом
+function deepCount(a){
+    let count = a.length;
+    for (let i = 0; i < a.length; i++) {
+        if (Array.isArray(a[i])) {
+            count += deepCount(a[i]);
+        }
+    }
+    return count;
+}
 
-const set60 = new Set(arr60);
-const setNames60 = new Set(names60);
-
-// set60.add("Ivan");
-// // set60.delete(value);
-// // set60.has(vale);
-// // set60.clear();
-// // set60.size;
-//
-// // =================
-// for (const value of set60) {
-//     console.log(value);
-// }
-// // =================
-
-// // =================
-// setNames60.forEach((value, valueAgain, set60) => {
-//     console.log(value, valueAgain);
-// });
-//
-// console.log(setNames60.values());
-// console.log(setNames60.keys());
-// console.log(setNames60.entries());
-// // =================
-
-// console.log(set60);
-// 60 end
+console.log(deepCount(["1", 5, "3", ["10"]]));
+console.log(deepCount2(["1", 5, "3", ["10"]]));
+// console.log(deepCount([1, 5, 3]));
+// console.log(deepCount([1, 2, [3, 4, [5]]]));
