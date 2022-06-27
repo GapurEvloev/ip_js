@@ -117,8 +117,10 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.classList.add("show");
     modal.classList.remove("hide");
     document.body.style.overflow = "hidden";
+    clearInterval(modalTimerId);
+    window.removeEventListener("scroll", showModalByScrooll);
   }
-
+  
   modalClose.forEach(el => {
     el.addEventListener("click", handelModalClose);
   });
@@ -126,17 +128,27 @@ document.addEventListener("DOMContentLoaded", () => {
   modalTriggers.forEach(el => {
     el.addEventListener("click", handelModalOpen);
   });
-
+  
   modal.addEventListener("click", (e) => {
     if (e.target === modal) {
       handelModalClose();
     }
   });
-
+  
   document.addEventListener("keydown", (e) => {
     if (e.code === "Escape" && modal.classList.contains("show")) {
       handelModalClose();
     }
   });
+  
+  const modalTimerId = setTimeout(handelModalOpen, 3000);
+
+  function showModalByScrooll() {
+    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+      handelModalOpen();
+    }
+  }
+
+  window.addEventListener("scroll", showModalByScrooll);
   // Modal end
 });
