@@ -168,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
         total: 229,
         valute: "грн/день",
       },
+      classes: ["bar", "card-item--1"]
     },
     {
       img: "img/tabs/elite.jpg",
@@ -180,6 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
         total: 550,
         valute: "грн/день",
       },
+      classes: ["bar", "card-item--2"]
     },
     {
       img: "img/tabs/post.jpg",
@@ -192,16 +194,18 @@ document.addEventListener("DOMContentLoaded", () => {
         total: 430,
         valute: "грн/день",
       },
+      // classes: ["bar", "card-item--3"]
     },
   ];
 
   class Card {
-    constructor(img, alt, subtitle, descr, price, parentSelector) {
-      this.img = img;
-      this.alt = alt;
-      this.subtitle = subtitle;
-      this.descr = descr;
-      this.price = price;
+    constructor(card, parentSelector) {
+      this.img = card.img;
+      this.alt = card.alt;
+      this.subtitle = card.subtitle;
+      this.descr = card.descr;
+      this.price = card.price;
+      this.classes = card.classes;
       this.parentSelector = document.querySelector(parentSelector);
       this.transfer = 1;
       this.changeToUAH();
@@ -213,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     render() {
       let item = `
-        <div class="menu__item">
+        <div class="menu__item${this.classes?.length ? " "+this.classes.join(" ") : ""}">
           <img src="${this.img}" alt="${this.alt}">
           <h3 class="menu__item-subtitle">${this.subtitle}</h3>
           <div class="menu__item-descr">${this.descr}</div>
@@ -231,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".menu__field .container").innerHTML = "";
 
   cardsData.map(card => {
-    new Card(card.img, card.alt, card.subtitle, card.descr, card.price, ".menu__field .container").render();
+    new Card(card, ".menu__field .container").render();
   });
   // Class cards end
 });

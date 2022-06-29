@@ -124,3 +124,13 @@ console.log(long);
 console.log(div.calcArea());
 console.log(div.showMyProps());
 // 77. Классы (ES6) end
+
+
+// 80 Rest оператор и параметры по умолчанию (ES6) start
+function log(a, b, ...restOp) {
+  console.log(a, b, restOp); // => alt text [ 'fade', 123, true ]
+  console.log(a, b, ...restOp); // => alt text fade 123 true
+}
+
+log("alt", "text", "fade", 123, true);
+// 80 Rest оператор и параметры по умолчанию (ES6) end
