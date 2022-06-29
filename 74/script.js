@@ -44,45 +44,83 @@
 // rasul.getName();
 // // 75 end
 
+// // 76  start
+// function showThis(a, b) {
+//   console.log(this); // => если строгий режим то undefined иначе window
 
-function showThis(a, b) {
-  console.log(this); // => если строгий режим то undefined иначе window
+//   function sum() {
+//     console.log(this);
+//     return a + b;
+//   }
 
-  function sum() {
-    console.log(this);
-    return a + b;
+//   console.log(sum()); // =>
+// }
+
+// showThis(2, 4);
+
+// const obj = {
+//   a: 20,
+//   b: 30,
+//   sum() {
+//     console.log(this); // => object
+
+//     function shout () {
+//       console.log(this); // => undefined
+//     }
+//     shout();
+//   },
+// };
+
+// obj.sum(); // =>
+
+
+
+// function User76(name, id) {
+//   this.name = name;
+//   this.id = id;
+//   this.human = true;
+//   this.hello = function() {
+//     console.log(`Hello ${this.name}`); // => this в конструкторах и классах это новый экземпляр объекта
+//   };
+// }
+
+// const khas76 = new User76("Khas", 12);
+// // 76  end
+
+
+// 77. Классы (ES6) start
+class Rectangle {
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
   }
 
-  console.log(sum()); // =>
+  calcArea() {
+    return this.width * this.height;
+  }
 }
 
-showThis(2, 4);
-
-const obj = {
-  a: 20,
-  b: 30,
-  sum() {
-    console.log(this); // => object
-
-    function shout () {
-      console.log(this); // => undefined
-    }
-    shout();
-  },
-};
-
-obj.sum(); // =>
-
-
-
-function User76(name, id) {
-  this.name = name;
-  this.id = id;
-  this.human = true;
-  this.hello = function() {
-    console.log(`Hello ${this.name}`); // => this в конструкторах и классах это новый экземпляр объекта
-  };
+class ColoredRectangleWithText extends Rectangle {
+  constructor(height, width, text, color) {
+    super(height, width);
+    this.text = text;
+    this.color = color;
+  }
+  showMyProps() {
+    return [this.text, this.color];
+  }
 }
 
-const khas76 = new User76("Khas", 12);
+const square = new Rectangle(10, 10);
+const long = new Rectangle(20, 100);
 
+const div = new ColoredRectangleWithText(25, 10, "hello", "red");
+
+console.log(square.calcArea());
+console.log(long.calcArea());
+console.log(square);
+console.log(long);
+
+console.log(div.calcArea());
+console.log(div.showMyProps());
+// 77. Классы (ES6) end
