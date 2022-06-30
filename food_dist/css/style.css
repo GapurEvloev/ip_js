@@ -19,3 +19,21 @@
         opacity: 1;
     }
 }
+
+form .btn {
+    position: relative;
+}
+
+img.loading {
+    display: block;
+    margin: 0;
+    width: 3em;
+    height: 3em;
+}
+
+button img.loading {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(100%, -50%);
+}

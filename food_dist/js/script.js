@@ -105,7 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Modal start
   const modal = document.querySelector(".modal");
   const modalTriggers = document.querySelectorAll("[data-modal='open']");
-  const modalClose = document.querySelectorAll("[data-modal='close']");
 
   function handelModalClose() {
     modal.classList.remove("show");
@@ -117,20 +116,16 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.classList.add("show");
     modal.classList.remove("hide");
     document.body.style.overflow = "hidden";
-    // clearInterval(modalTimerId);
-    window.removeEventListener("scroll", showModalByScrooll);
+    clearInterval(modalTimerId);
+    window.removeEventListener("scroll", showModalByScroll);
   }
-
-  modalClose.forEach((el) => {
-    el.addEventListener("click", handelModalClose);
-  });
 
   modalTriggers.forEach((el) => {
     el.addEventListener("click", handelModalOpen);
   });
 
   modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
+    if (e.target === modal || e.target.getAttribute("data-modal") === "close") {
       handelModalClose();
     }
   });
@@ -141,9 +136,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // const modalTimerId = setTimeout(handelModalOpen, 3000);
+  const modalTimerId = setTimeout(handelModalOpen, 50000);
 
-  function showModalByScrooll() {
+  function showModalByScroll() {
     if (
       window.pageYOffset + document.documentElement.clientHeight >=
       document.documentElement.scrollHeight - 1
@@ -152,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  window.addEventListener("scroll", showModalByScrooll);
+  window.addEventListener("scroll", showModalByScroll);
   // Modal end
 
   // Class cards start
@@ -238,4 +233,77 @@ document.addEventListener("DOMContentLoaded", () => {
     new Card(card, ".menu__field .container").render();
   });
   // Class cards end
+
+  // Forms start
+  const forms = document.querySelectorAll("form");
+
+  const formMessages = {
+    loading: "img/form/spinner.svg",
+    success: "Success!",
+    failure: "Failure. Something went wrong..."
+  };
+
+  forms.forEach(item => {
+    postData(item);
+  });
+
+  function postData(form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const statusMessage = document.createElement('img');
+      statusMessage.src = formMessages.loading;
+      statusMessage.classList.add('loading');
+      form.querySelector("button").append(statusMessage);
+
+      const request = new XMLHttpRequest();
+      request.open('POST', "server.php");
+
+      request.setRequestHeader("Content-Type", "application/json");
+      const formData = new FormData(form);
+
+      const object = {};
+      formData.forEach((value, key, array) => {
+        object[key] = value;
+      });
+      const json = JSON.stringify(object);
+
+      request.send(json);
+
+      request.addEventListener('load', () => {
+        if (request.status === 200) {
+          console.log(request.response);
+          showThanksModal(formMessages.success);
+          form.reset();
+          statusMessage.remove();
+        } else {
+          showThanksModal(formMessages.failure);
+        }
+      });
+    });
+  }
+
+  function showThanksModal(message) {
+    const prevModalDialog = document.querySelector(".modal__dialog");
+    prevModalDialog.classList.add("hide");
+    handelModalOpen();
+
+    const thanksModal = document.createElement("div");
+    thanksModal.classList.add("modal__dialog");
+    thanksModal.innerHTML = `
+      <div class="modal__content">
+        <div data-modal="close" class="modal__close">&times;</div>
+        <div class="modal__title">${message}</div>
+      </div>
+    `;
+    document.querySelector(".modal").append(thanksModal);
+    setTimeout(() => {
+      thanksModal.remove();
+      prevModalDialog.classList.add("show");
+      prevModalDialog.classList.remove("hide");
+      handelModalClose();
+    }, 4000);
+  }
+
+  // Forms end
 });
