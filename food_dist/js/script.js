@@ -256,30 +256,32 @@ document.addEventListener("DOMContentLoaded", () => {
       statusMessage.classList.add('loading');
       form.querySelector("button").append(statusMessage);
 
-      const request = new XMLHttpRequest();
-      request.open('POST', "server.php");
-
-      request.setRequestHeader("Content-Type", "application/json");
       const formData = new FormData(form);
 
       const object = {};
-      formData.forEach((value, key, array) => {
+      formData.forEach((value, key) => {
         object[key] = value;
       });
-      const json = JSON.stringify(object);
 
-      request.send(json);
-
-      request.addEventListener('load', () => {
-        if (request.status === 200) {
-          console.log(request.response);
+      fetch("server.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(object)
+      })
+        .then(data => data.text())
+        .then((data) => {
+          console.log(data);
           showThanksModal(formMessages.success);
-          form.reset();
           statusMessage.remove();
-        } else {
+        })
+        .catch(() => {
           showThanksModal(formMessages.failure);
-        }
-      });
+        })
+        .finally(() => {
+          form.reset();
+        });
     });
   }
 
@@ -304,6 +306,17 @@ document.addEventListener("DOMContentLoaded", () => {
       handelModalClose();
     }, 4000);
   }
-
   // Forms end
+
+  // // Fetch API start
+  // fetch("https://jsonplaceholder.typicode.com/posts", {
+  //   method: "POST",
+  //   body: JSON.stringify({name: "Alex", surname: "Smith"}),
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // })
+  //   .then(response => response.json())
+  //   .then(json => console.log(json));
+  // // Fetch API end
 });
