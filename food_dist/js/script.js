@@ -308,6 +308,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   // Forms end
 
+  fetch("http://localhost:3000/menu")
+    .then(data => data.json())
+    .then(res => console.log(res));
+
   // // Fetch API start
   // fetch("https://jsonplaceholder.typicode.com/posts", {
   //   method: "POST",
