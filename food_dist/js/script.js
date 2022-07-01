@@ -151,58 +151,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // Modal end
 
   // Class cards start
-  const cardsData = [
-    {
-      img: "img/tabs/vegy.jpg",
-      alt: "vegy",
-      subtitle: "Меню “Фитнес“",
-      descr:
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-      price: {
-        cost: "Цена",
-        total: 229,
-        valute: "грн/день",
-      },
-      classes: ["bar", "card-item--1"]
-    },
-    {
-      img: "img/tabs/elite.jpg",
-      alt: "elite",
-      subtitle: "Меню “Премиум”",
-      descr:
-        "В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
-      price: {
-        cost: "Цена",
-        total: 550,
-        valute: "грн/день",
-      },
-      classes: ["bar", "card-item--2"]
-    },
-    {
-      img: "img/tabs/post.jpg",
-      alt: "post",
-      subtitle: "Меню “Постное“",
-      descr:
-        "Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
-      price: {
-        cost: "Цена",
-        total: 430,
-        valute: "грн/день",
-      },
-      // classes: ["bar", "card-item--3"]
-    },
-  ];
-
   class Card {
     constructor(card, parentSelector) {
       this.img = card.img;
       this.alt = card.alt;
-      this.subtitle = card.subtitle;
+      this.title = card.title;
       this.descr = card.descr;
       this.price = card.price;
       this.classes = card.classes;
       this.parentSelector = document.querySelector(parentSelector);
-      this.transfer = 1;
+      this.transfer = 29;
       this.changeToUAH();
     }
 
@@ -212,14 +170,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     render() {
       let item = `
-        <div class="menu__item${this.classes?.length ? " "+this.classes.join(" ") : ""}">
+        <div class="menu__item${this.classes?.length ? " " + this.classes.join(" ") : ""}">
           <img src="${this.img}" alt="${this.alt}">
-          <h3 class="menu__item-subtitle">${this.subtitle}</h3>
+          <h3 class="menu__item-subtitle">${this.title}</h3>
           <div class="menu__item-descr">${this.descr}</div>
           <div class="menu__item-divider"></div>
           <div class="menu__item-price">
             <div class="menu__item-cost">${this.price.cost}:</div>
-            <div class="menu__item-total"><span>${this.price.total}</span> ${this.price.valute}</div>
+            <div class="menu__item-total"><span>${this.price.total}</span> ${
+        this.price.valute
+      }</div>
           </div>
         </div>
       `;
@@ -229,9 +189,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelector(".menu__field .container").innerHTML = "";
 
-  cardsData.map(card => {
-    new Card(card, ".menu__field .container").render();
-  });
+  const getCards = async (url) => {
+    const res = await fetch(url);
+
+    if(!res.ok) {
+      throw new Error(`Fetching ${url} failed, status: ${res.status}`);
+    }
+
+    return await res.json();
+  };
+
+  getCards("http://localhost:3000/menu")
+    .then(data => {
+      data.map((card) => {
+        new Card(card, ".menu__field .container").render();
+      });
+    });
   // Class cards end
 
   // Forms start
@@ -240,48 +213,50 @@ document.addEventListener("DOMContentLoaded", () => {
   const formMessages = {
     loading: "img/form/spinner.svg",
     success: "Success!",
-    failure: "Failure. Something went wrong..."
+    failure: "Failure. Something went wrong...",
   };
 
-  forms.forEach(item => {
-    postData(item);
+  forms.forEach((item) => {
+    bindPostData(item);
   });
 
-  function postData(form) {
-    form.addEventListener('submit', (e) => {
+  const postData = async (url, data) => {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    });
+
+    return await res.json();
+  };
+
+  function bindPostData(form) {
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const statusMessage = document.createElement('img');
+      const statusMessage = document.createElement("img");
       statusMessage.src = formMessages.loading;
-      statusMessage.classList.add('loading');
+      statusMessage.classList.add("loading");
       form.querySelector("button").append(statusMessage);
 
       const formData = new FormData(form);
 
-      const object = {};
-      formData.forEach((value, key) => {
-        object[key] = value;
-      });
+      const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-      fetch("server.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(object)
+      postData('http://localhost:3000/requests', json)
+      .then((data) => {
+        console.log(data);
+        showThanksModal(formMessages.success);
+        statusMessage.remove();
       })
-        .then(data => data.text())
-        .then((data) => {
-          console.log(data);
-          showThanksModal(formMessages.success);
-          statusMessage.remove();
-        })
-        .catch(() => {
-          showThanksModal(formMessages.failure);
-        })
-        .finally(() => {
-          form.reset();
-        });
+      .catch(() => {
+        showThanksModal(formMessages.failure);
+      })
+      .finally(() => {
+        form.reset();
+      });
     });
   }
 
@@ -308,9 +283,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   // Forms end
 
-  fetch("http://localhost:3000/menu")
-    .then(data => data.json())
-    .then(res => console.log(res));
+  // fetch("http://localhost:3000/menu")
+  //   .then((data) => data.json())
+  //   .then((res) => console.log(res));
 
   // // Fetch API start
   // fetch("https://jsonplaceholder.typicode.com/posts", {
