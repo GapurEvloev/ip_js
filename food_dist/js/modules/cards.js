@@ -1,3 +1,5 @@
+import { getCards } from "../services/services";
+
 function cards() {
   // Class cards start
   class Card {
@@ -38,16 +40,6 @@ function cards() {
 
   document.querySelector(".menu__field .container").innerHTML = "";
 
-  const getCards = async (url) => {
-    const res = await fetch(url);
-
-    if (!res.ok) {
-      throw new Error(`Fetching ${url} failed, status: ${res.status}`);
-    }
-
-    return await res.json();
-  };
-
   getCards("http://localhost:3000/menu").then((data) => {
     data.map((card) => {
       new Card(card, ".menu__field .container").render();
@@ -56,4 +48,4 @@ function cards() {
   // Class cards end
 }
 
-module.exports = cards;
+export default cards;

@@ -116,4 +116,4 @@ function slider() {
   // Slider end 
 }
 
-module.exports = slider;
+export default slider;
