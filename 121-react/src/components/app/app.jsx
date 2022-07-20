@@ -5,11 +5,28 @@ import SearchPanel from "../search-panel/search-panel"
 import "./app.css"
 
 function App() {
+  const data = [
+    {
+      id: 1,
+      name: "Jack Sparrow",
+      salary: 2000
+    },
+    {
+      id: 2,
+      name: "Robin Williams",
+      salary: 3000
+    },
+    {
+      id: 3,
+      name: "Alex Pitterson",
+      salary: 2500
+    },
+  ]
   return (
     <div className="app">
       <AppInfo/>
       <SearchPanel/>
-      <EmployeesList/>
+      <EmployeesList data={data}/>
       <EmployeesAddForm/>
     </div>
   )
