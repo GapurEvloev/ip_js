@@ -9,17 +9,20 @@ function App() {
     {
       id: 1,
       name: "Jack Sparrow",
-      salary: 2000
+      salary: 2000,
+      increase: true,
     },
     {
       id: 2,
       name: "Robin Williams",
-      salary: 3000
+      salary: 3000,
+      increase: false,
     },
     {
       id: 3,
       name: "Alex Pitterson",
-      salary: 2500
+      salary: 2500,
+      increase: false,
     },
   ]
   return (
