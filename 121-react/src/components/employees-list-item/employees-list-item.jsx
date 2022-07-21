@@ -1,4 +1,6 @@
 import { Component } from "react";
+import classNames from "classnames";
+
 import "./employees-list-item.css";
 
 class EmployeesListItem extends Component {
@@ -10,19 +12,30 @@ class EmployeesListItem extends Component {
   }
 
   toggleIncrease = () => {
-    this.setState(({increase}) => ({
-      increase: !increase
+    this.setState(({ increase }) => ({
+      increase: !increase,
     }));
-  }
+  };
+
+  toggleLike = () => {
+    this.setState(({ like }) => ({
+      like: !like,
+    }));
+  };
 
   render() {
-    const {name, salary} = this.props;
-    const {increase} = this.state;
-    
+    const { name, salary } = this.props;
+    const { increase, like } = this.state;
+
     return (
       <li
-        className={`list-group-item d-flex justify-content-between${increase ? " increase" : ""}`}>
-        <span className="list-group-item-label">{name}</span>
+        className={classNames(`list-group-item d-flex justify-content-between`, {
+          increase: increase,
+          like: like,
+        })}>
+        <span onClick={this.toggleLike} className="list-group-item-label">
+          {name}
+        </span>
         <input type="text" className="list-group-item-input" defaultValue={salary + "$"} />
         <div className="d-flex justify-content-center align-items-center">
           <button onClick={this.toggleIncrease} type="button" className="btn-cookie btn-sm ">
