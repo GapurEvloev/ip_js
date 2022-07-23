@@ -1,5 +1,5 @@
 import { Component } from "react";
-import nextId from "react-id-generator";
+import { v4 as uuidv4 } from 'uuid';
 
 import AppInfo from "../app-info/app-info";
 import EmployeesAddForm from "../employees-add-form/employees-add-form";
@@ -44,10 +44,11 @@ class App extends Component {
       name,
       salary,
       increase: false,
-      id: nextId(),
+      id: uuidv4(),
     };
     this.setState(({ data }) => {
       const newArr = [...data, newItem];
+      console.log(newItem.id);
       return {
         data: newArr,
       };
