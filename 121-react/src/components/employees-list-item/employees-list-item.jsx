@@ -1,55 +1,32 @@
-import { Component } from "react";
 import classNames from "classnames";
 
 import "./employees-list-item.css";
 
-class EmployeesListItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      increase: false,
-    };
-  }
+const EmployeesListItem = ({ name, salary, onDelete, onToggleProps, increase, like }) => {
+  // const { increase, like } = this.state;
 
-  toggleIncrease = () => {
-    this.setState(({ increase }) => ({
-      increase: !increase,
-    }));
-  };
+  return (
+    <li
+      className={classNames(`list-group-item d-flex justify-content-between`, {
+        increase: increase,
+        like: like,
+      })}>
+      <span onClick={onToggleProps} className="list-group-item-label" data-toggle="like">
+        {name}
+      </span>
+      <input type="text" className="list-group-item-input" defaultValue={salary + "$"} />
+      <div className="d-flex justify-content-center align-items-center">
+        <button onClick={onToggleProps} type="button" className="btn-cookie btn-sm " data-toggle="increase">
+          <i className="fas fa-cookie"></i>
+        </button>
 
-  toggleLike = () => {
-    this.setState(({ like }) => ({
-      like: !like,
-    }));
-  };
-
-  render() {
-    const { name, salary, onDelete } = this.props;
-    const { increase, like } = this.state;
-
-    return (
-      <li
-        className={classNames(`list-group-item d-flex justify-content-between`, {
-          increase: increase,
-          like: like,
-        })}>
-        <span onClick={this.toggleLike} className="list-group-item-label">
-          {name}
-        </span>
-        <input type="text" className="list-group-item-input" defaultValue={salary + "$"} />
-        <div className="d-flex justify-content-center align-items-center">
-          <button onClick={this.toggleIncrease} type="button" className="btn-cookie btn-sm ">
-            <i className="fas fa-cookie"></i>
-          </button>
-
-          <button onClick={onDelete} type="button" className="btn-trash btn-sm">
-            <i className="fas fa-trash"></i>
-          </button>
-          <i className="fas fa-star"></i>
-        </div>
-      </li>
-    );
-  }
-}
+        <button onClick={onDelete} type="button" className="btn-trash btn-sm">
+          <i className="fas fa-trash"></i>
+        </button>
+        <i className="fas fa-star"></i>
+      </div>
+    </li>
+  );
+};
 
 export default EmployeesListItem;
