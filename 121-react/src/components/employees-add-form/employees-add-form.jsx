@@ -17,18 +17,27 @@ class EmployeesAddForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    if (this.state.name.length < 3 || !this.state.salary) {
+      alert("Please enter a salary and name");
+
+      if (this.state.name.length < 3) {
+        alert("The name must be at least 3 characters");
+      }
+      
+      return;
+    }
     this.props.onAdd(this.state.name, this.state.salary);
     this.setState({
-        name: '',
-        salary: ''
-    })
-}
+      name: "",
+      salary: "",
+    });
+  };
 
   render() {
     return (
       <div className="app-add-form">
         <h3>Add a new employee</h3>
-        <form onSubmit = {this.onSubmit} className="add-form d-flex">
+        <form onSubmit={this.onSubmit} className="add-form d-flex">
           <input
             name="name"
             value={this.state.name}
