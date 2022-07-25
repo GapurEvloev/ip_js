@@ -35,6 +35,8 @@ class App extends Component {
           like: false,
         },
       ],
+      term: "",
+      filters: "all"
     };
   }
 
@@ -88,27 +90,58 @@ class App extends Component {
 
   onToggleProps = (id, prop) => {
     this.setState(({ data }) => ({
-      data: data.map(item => {
+      data: data.map((item) => {
         if (item.id === id) {
-          return {...item, [prop]: !item[prop]};
+          return { ...item, [prop]: !item[prop] };
         }
         return item;
-      })
-    }))
+      }),
+    }));
+  };
+
+  searchEmp = (items, term) => {
+    if (items.length === 0) {
+      return items;
+    }
+
+    return items.filter((item) => {
+      return item.name.indexOf(term) > -1;
+    });
+  };
+  
+  searchFilter = (items, filter) => {
+    switch (filter) {
+      case "all":
+        return items;
+      case "for_promotion":
+        return items.filter((item) => item.like);
+      case "salary_over_1000":
+        return items.filter((item) => item.salary >= 1000);
+    
+      default:
+        return items;
+    }
+  };
+
+  onUpdateSearch = (term) => {
+    this.setState({term});
+  };
+ 
+  onUpdateFilters = (filters) => {
+    this.setState({filters});
   };
 
   render() {
-    const employees = this.state.data.length;
-    const increaced = this.state.data.filter(item => item.increase).length;
+    const { data, term, filters } = this.state;
+    const employees = data.length;
+    const increaced = data.filter((item) => item.increase).length;
+    const visibleData = this.searchFilter(this.searchEmp(data, term), filters);
+
     return (
       <div className="app">
         <AppInfo employees={employees} increaced={increaced} />
-        <SearchPanel />
-        <EmployeesList
-          onDelete={this.deleteItem}
-          data={this.state.data}
-          onToggleProps={this.onToggleProps}
-        />
+        <SearchPanel onUpdateSearch={this.onUpdateSearch} onUpdateFilters={this.onUpdateFilters} />
+        <EmployeesList onDelete={this.deleteItem} data={visibleData} onToggleProps={this.onToggleProps} />
         <EmployeesAddForm onAdd={this.addItem} />
       </div>
     );

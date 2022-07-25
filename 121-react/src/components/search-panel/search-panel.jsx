@@ -2,11 +2,11 @@ import SearchFilters from "./search-filters";
 import SearchInput from "./search-input";
 import "./search-panel.css";
 
-const SearchPanel = () => {
+const SearchPanel = ({onUpdateSearch, onUpdateFilters}) => {
   return (
     <div className="search-panel">
-      <SearchInput/>
-      <SearchFilters/>
+      <SearchInput onUpdateSearch={onUpdateSearch} />
+      <SearchFilters onUpdateFilters={onUpdateFilters} />
     </div>
   );
 }
