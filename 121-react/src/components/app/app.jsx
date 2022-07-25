@@ -36,7 +36,7 @@ class App extends Component {
         },
       ],
       term: "",
-      filters: "all"
+      filters: "all",
     };
   }
 
@@ -108,7 +108,7 @@ class App extends Component {
       return item.name.indexOf(term) > -1;
     });
   };
-  
+
   searchFilter = (items, filter) => {
     switch (filter) {
       case "all":
@@ -117,18 +117,18 @@ class App extends Component {
         return items.filter((item) => item.like);
       case "salary_over_1000":
         return items.filter((item) => item.salary >= 1000);
-    
+
       default:
         return items;
     }
   };
 
   onUpdateSearch = (term) => {
-    this.setState({term});
+    this.setState({ term });
   };
- 
+
   onUpdateFilters = (filters) => {
-    this.setState({filters});
+    this.setState({ filters });
   };
 
   render() {
@@ -141,7 +141,11 @@ class App extends Component {
       <div className="app">
         <AppInfo employees={employees} increaced={increaced} />
         <SearchPanel onUpdateSearch={this.onUpdateSearch} onUpdateFilters={this.onUpdateFilters} />
-        <EmployeesList onDelete={this.deleteItem} data={visibleData} onToggleProps={this.onToggleProps} />
+        <EmployeesList
+          onDelete={this.deleteItem}
+          data={visibleData}
+          onToggleProps={this.onToggleProps}
+        />
         <EmployeesAddForm onAdd={this.addItem} />
       </div>
     );

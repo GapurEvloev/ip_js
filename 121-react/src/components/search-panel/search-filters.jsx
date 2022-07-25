@@ -27,7 +27,10 @@ class SearchFilters extends Component {
           <button
             key={button.filter}
             onClick={this.onUpdateFilters}
-            className={classNames("btn", button.filter === this.state.filter ? "btn-light" : "btn-outline-light")}
+            className={classNames(
+              "btn",
+              button.filter === this.state.filter ? "btn-light" : "btn-outline-light",
+            )}
             type="button"
             data-filter={button.filter}>
             {button.name}
