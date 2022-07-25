@@ -131,6 +131,19 @@ class App extends Component {
     this.setState({ filters });
   };
 
+  onSalaryChange = (id, salary) => {
+    salary = salary.replace(/[^0-9.]/g, "");
+
+    this.setState(({data}) => ({
+      data: data.map((item) => {
+        if (item.id === id) {
+          return { ...item, salary };
+        }
+        return item;
+      }),
+    }));
+  };
+
   render() {
     const { data, term, filters } = this.state;
     const employees = data.length;
@@ -142,6 +155,7 @@ class App extends Component {
         <AppInfo employees={employees} increaced={increaced} />
         <SearchPanel onUpdateSearch={this.onUpdateSearch} onUpdateFilters={this.onUpdateFilters} />
         <EmployeesList
+          onSalaryChange={this.onSalaryChange}
           onDelete={this.deleteItem}
           data={visibleData}
           onToggleProps={this.onToggleProps}

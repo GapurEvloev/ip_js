@@ -2,7 +2,7 @@ import classNames from "classnames";
 
 import "./employees-list-item.css";
 
-const EmployeesListItem = ({ name, salary, onDelete, onToggleProps, increase, like }) => {
+const EmployeesListItem = ({ name, salary, onDelete, onToggleProps, onSalaryChange, increase, like }) => {
   // const { increase, like } = this.state;
 
   return (
@@ -14,7 +14,7 @@ const EmployeesListItem = ({ name, salary, onDelete, onToggleProps, increase, li
       <span onClick={onToggleProps} className="list-group-item-label" data-toggle="like">
         {name}
       </span>
-      <input type="text" className="list-group-item-input" defaultValue={salary + "$"} />
+      <input onChange={onSalaryChange} type="text" className="list-group-item-input" value={salary}  />
       <div className="d-flex justify-content-center align-items-center">
         <button onClick={onToggleProps} type="button" className="btn-cookie btn-sm " data-toggle="increase">
           <i className="fas fa-cookie"></i>
