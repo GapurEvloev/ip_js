@@ -1,6 +1,44 @@
 import React from "react";
 import "./App.css";
 
+import styled from "styled-components";
+
+const EmpItem = styled.div`
+  padding: 20px;
+  margin-top: 15px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  
+  a {
+    display: block;
+    margin: 10px auto;
+    color: ${props => props.active ? "red" : "black"};
+  }
+  
+  input {
+    display: block;
+    margin: 10px auto 0;
+  }
+`;
+
+const Header = styled.h2`
+  font-size: 22px;
+  color: #3d5a80;
+`;
+
+const Button = styled.button`
+  display: block;
+  padding: 5px 15px;
+  background-color: gold;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 5px rgba(0,0,0, 0.2);
+`;
+
+const BigButton = styled(Button)`
+  margin: 0 auto;
+  width: 245px;
+`;
+
 class WhoIAm extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +55,7 @@ class WhoIAm extends React.Component {
       years: state.years + 1,
     }));
   };
-  
+
   prevYear() {
     this.setState(state => ({
       years: state.years - 1,
@@ -35,29 +73,36 @@ class WhoIAm extends React.Component {
     const { name, surname, link } = this.props;
     const { years, position} = this.state;
     return (
-      <div>
-        <button onClick={() => this.prevYear()}>{"---"}</button>
-        <button onClick={this.nextYear}>{this.state.text}</button>
-        <h1>
-          My name is {name}, surname - {surname}, 
+      <EmpItem active>
+        <Button onClick={() => this.prevYear()}>{"---"}</Button>
+        <BigButton onClick={this.nextYear}>{this.state.text}</BigButton>
+        <Header>
+          My name is {name}, surname - {surname},
           age - {years}, 
           position - {position}
-        </h1>
-        <a href={link}>My profile</a>
+        </Header>
+        <BigButton as="a" href={link}>My profile</BigButton>
         <form action="">
           <span>Enter position</span>
           <input type="text" onChange={(e) => this.commitInputChanges(e, "some color")} />
         </form>
-      </div>
+      </EmpItem>
     );
   }
 }
 
+const Wrapper = styled.div`
+  width: 600px;
+  margin: 80px auto 0;
+`;
+
 function App() {
   return (
     <div className="App">
-      <WhoIAm name={"John"} surname={"Smith"} link={"facebook.com"} />
-      <WhoIAm name={"Alex"} surname={"Jonson"} link={"linkedin.com"} />
+      <Wrapper>
+        <WhoIAm name={"John"} surname={"Smith"} link={"facebook.com"} />
+        <WhoIAm name={"Alex"} surname={"Jonson"} link={"linkedin.com"} />
+      </Wrapper>
     </div>
   );
 }
