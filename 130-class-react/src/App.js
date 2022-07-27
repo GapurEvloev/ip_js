@@ -1,20 +1,23 @@
 import React from "react";
+
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import styled from "styled-components";
+import BootstrapGrid from "./BootstrapGrid";
 
 const EmpItem = styled.div`
   padding: 20px;
   margin-top: 15px;
   border-radius: 5px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-  
+
   a {
     display: block;
     margin: 10px auto;
-    color: ${props => props.active ? "red" : "black"};
+    color: ${(props) => (props.active ? "red" : "black")};
   }
-  
+
   input {
     display: block;
     margin: 10px auto 0;
@@ -31,7 +34,7 @@ const Button = styled.button`
   padding: 5px 15px;
   background-color: gold;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  box-shadow: 5px 5px 5px rgba(0,0,0, 0.2);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
 `;
 
 const BigButton = styled(Button)`
@@ -51,16 +54,16 @@ class WhoIAm extends React.Component {
   }
 
   nextYear() {
-    this.setState(state => ({
+    this.setState((state) => ({
       years: state.years + 1,
     }));
-  };
+  }
 
   prevYear() {
-    this.setState(state => ({
+    this.setState((state) => ({
       years: state.years - 1,
     }));
-  };
+  }
 
   commitInputChanges = (e, color) => {
     console.log(color);
@@ -71,17 +74,17 @@ class WhoIAm extends React.Component {
 
   render() {
     const { name, surname, link } = this.props;
-    const { years, position} = this.state;
+    const { years, position } = this.state;
     return (
       <EmpItem active>
         <Button onClick={() => this.prevYear()}>{"---"}</Button>
         <BigButton onClick={this.nextYear}>{this.state.text}</BigButton>
         <Header>
-          My name is {name}, surname - {surname},
-          age - {years}, 
-          position - {position}
+          My name is {name}, surname - {surname}, age - {years}, position - {position}
         </Header>
-        <BigButton as="a" href={link}>My profile</BigButton>
+        <BigButton as="a" href={link}>
+          My profile
+        </BigButton>
         <form action="">
           <span>Enter position</span>
           <input type="text" onChange={(e) => this.commitInputChanges(e, "some color")} />
@@ -103,6 +106,7 @@ function App() {
         <WhoIAm name={"John"} surname={"Smith"} link={"facebook.com"} />
         <WhoIAm name={"Alex"} surname={"Jonson"} link={"linkedin.com"} />
       </Wrapper>
+      <BootstrapGrid></BootstrapGrid>
     </div>
   );
 }
