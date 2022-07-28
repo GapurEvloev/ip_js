@@ -35,6 +35,14 @@ class RandomChar extends Component {
       char: { name, description, thumbnail, homepage, wiki },
     } = this.state;
 
+    const updateDescription = (str, length) => {
+      return str
+        ? str.length > length
+          ? `${str.substring(0, length)}...`
+          : str
+        : "Marvel character"
+    }
+
     return (
       <div className="randomchar">
         <div className="randomchar__block">
@@ -42,11 +50,7 @@ class RandomChar extends Component {
           <div className="randomchar__info">
             <p className="randomchar__name">{name}</p>
             <p className="randomchar__descr">
-              {description
-                ? description.length > 150
-                  ? `${description.substring(0, 150)}...`
-                  : description
-                : "Marvel character"}
+              {updateDescription(description, 150)}
             </p>
             <div className="randomchar__btns">
               <a href={homepage} className="button button__main">
