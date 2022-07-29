@@ -1,6 +1,6 @@
-const CharListItem = ({thumbnail, name, active}) => {
+const CharListItem = ({thumbnail, name, active, id, onSelectChar}) => {
   return (
-    <li className={`char__item${active ? "char__item_selected" : ""}`}>
+    <li onClick={() => onSelectChar(id)} className={`char__item${active ? "char__item_selected" : ""}`}>
       <img src={thumbnail} alt="abyss" />
       <div className="char__name">{name}</div>
     </li>

@@ -43,7 +43,7 @@ class CharList extends Component {
   render() {
     const {chars, loading, error} = this.state;
     const spinner = loading ? <Spinner/> : null;
-    const content = !loading ? <View chars={chars} /> : null;
+    const content = !loading ? <View chars={chars} onSelectChar={this.props.onSelectChar} /> : null;
     const errorMessage = error ? <ErrorMessage/> : null;
 
     return (
@@ -59,12 +59,12 @@ class CharList extends Component {
   }
 };
 
-const View = ({chars}) => {
+const View = ({chars, onSelectChar}) => {
   return (
     <ul className="char__grid">
       {
         chars.map(char => {
-          return <CharListItem key={char.name} {...char}/>
+          return <CharListItem onSelectChar={onSelectChar} key={char.id} {...char}/>
         })
       }
     </ul>
