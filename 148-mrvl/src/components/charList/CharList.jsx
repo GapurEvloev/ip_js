@@ -5,6 +5,7 @@ import MarvelService from "../../services/MarvelService";
 import CharListItem from "./CharListItem";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
+import PropTypes from "prop-types";
 
 class CharList extends Component {
   state = {
@@ -12,7 +13,7 @@ class CharList extends Component {
     loading: true,
     error: false,
     newItemsLoading: false,
-    offset: 1541,
+    offset: 210,
     charsEnded: false,
   }
 
@@ -92,6 +93,10 @@ const View = ({chars, onSelectChar}) => {
       }
     </ul>
   )
+}
+
+CharList.propTypes = {
+  onSelectChar: PropTypes.func,
 }
 
 export default CharList;
