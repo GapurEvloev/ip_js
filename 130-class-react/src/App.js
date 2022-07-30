@@ -99,6 +99,28 @@ const Wrapper = styled.div`
   margin: 80px auto 0;
 `;
 
+const DynamicGreating = (props) => {
+  return (
+    <div style={props.style} className={`mb-3 p-3 border border-${props.color}`}>
+      {
+        React.Children.map(props.children, child => {
+          return React.cloneElement(child, {className: "shadow p-3 m-3 border rounded"});
+        })
+      }
+    </div>
+  )
+};
+
+const HelloGreating = (props) => {
+  return (
+    <div>
+      <DynamicGreating style={{"width":"600px", "margin": "0 auto"}} color={"primary"}>
+        <h2>Hello there</h2>
+      </DynamicGreating>
+    </div>
+  )
+};
+
 function App() {
   return (
     <div className="App">
@@ -107,6 +129,12 @@ function App() {
         <WhoIAm name={"Alex"} surname={"Jonson"} link={"linkedin.com"} />
       </Wrapper>
       <BootstrapGrid></BootstrapGrid>
+      
+      <HelloGreating/>
+      <DynamicGreating color={"primary"}>
+        <h1>header DynamicGreating</h1>
+        <h2>header h2 DynamicGreating</h2>
+      </DynamicGreating>
     </div>
   );
 }
