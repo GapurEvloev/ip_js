@@ -10,6 +10,7 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  user-select: none;
   &__long {
     display: block;
     width: 170px;
@@ -87,5 +88,13 @@
   }
   &:hover {
     transform: translateY(-5px);
+  }
+  &:disabled {
+    filter: grayscale(0.5);
+    pointer-events: none;
+    user-select: none;
+  }
+  &[hidden] {
+    display: none;
   }
 }
