@@ -59,30 +59,10 @@ class CharList extends Component {
       .catch(this.onError);
   };
 
-  itemRefs = [];
-
-  setRef = (ref) => {
-    this.itemRefs.push(ref);
-  }
-
-  focusOnItem = (id) => {
-    // Я реализовал вариант чуть сложнее, и с классом и с фокусом
-    // Но в теории можно оставить только фокус, и его в стилях использовать вместо класса
-    // На самом деле, решение с css-классом можно сделать, вынеся персонажа
-    // в отдельный компонент. Но кода будет больше, появится новое состояние
-    // и не факт, что мы выиграем по оптимизации за счет бОльшего кол-ва элементов
-
-    // По возможности, не злоупотребляйте рефами, только в крайних случаях
-    this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
-    this.itemRefs[id].classList.add('char__item_selected');
-    this.itemRefs[id].focus();
-    // console.log(this.itemRefs);
-  }
-
   render() {
     const {chars, loading, error, newItemsLoading, offset, charsEnded} = this.state;
     const spinner = loading ? <Spinner/> : null;
-    const content = !loading ? <View propRef={this.setRef} chars={chars} onSelectChar={this.props.onSelectChar} focusOnItem={this.focusOnItem} /> : null;
+    const content = !loading ? <View chars={chars} selectedChar={this.props.selectedChar} onSelectChar={this.props.onSelectChar} /> : null;
     const errorMessage = error ? <ErrorMessage/> : null;
 
     return (
@@ -105,12 +85,12 @@ class CharList extends Component {
 
 class View extends Component {
   render() {
-    const {chars, onSelectChar, propRef, focusOnItem} = this.props;
+    const {chars, onSelectChar, selectedChar} = this.props;
     return (
       <ul className="char__grid">
         {
           chars.map((char, i) => {
-            return <CharListItem propRef={propRef} i={i} focusOnItem={focusOnItem} onSelectChar={onSelectChar} key={char.id} {...char}/>
+            return <CharListItem selectedChar={selectedChar} onSelectChar={onSelectChar} key={char.id} {...char}/>
           })
         }
       </ul>
@@ -120,6 +100,7 @@ class View extends Component {
 
 CharList.propTypes = {
   onSelectChar: PropTypes.func,
+  selectedChar: PropTypes.number,
 }
 
 export default CharList;
