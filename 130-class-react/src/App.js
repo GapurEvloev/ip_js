@@ -1,178 +1,57 @@
 import React, { Component } from "react";
-
+import { Container } from "react-bootstrap";
 import "./App.css";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import styled from "styled-components";
-import BootstrapGrid from "./BootstrapGrid";
+// import styled from "styled-components";
 
-const EmpItem = styled.div`
-  padding: 20px;
-  margin-top: 15px;
-  border-radius: 5px;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+class Form extends Component {
+  // myRef = React.createRef();
 
-  a {
-    display: block;
-    margin: 10px auto;
-    color: ${(props) => (props.active ? "red" : "black")};
-  }
+  // componentDidMount() {
+  //   this.myRef.current.focus();
+  // };
 
-  input {
-    display: block;
-    margin: 10px auto 0;
-  }
-`;
-
-const Header = styled.h2`
-  font-size: 22px;
-  color: #3d5a80;
-`;
-
-const Button = styled.button`
-  display: block;
-  padding: 5px 15px;
-  background-color: gold;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-`;
-
-const BigButton = styled(Button)`
-  margin: 0 auto;
-  width: 245px;
-`;
-
-class WhoIAm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      years: 30,
-      text: "+++",
-      position: "",
-    };
-    this.nextYear = this.nextYear.bind(this); // задаем контекст для метода nextYear
-  }
-
-  nextYear() {
-    this.setState((state) => ({
-      years: state.years + 1,
-    }));
-  }
-
-  prevYear() {
-    this.setState((state) => ({
-      years: state.years - 1,
-    }));
-  }
-
-  commitInputChanges = (e, color) => {
-    console.log(color);
-    this.setState({
-      position: e.target.value,
-    });
+  setInputRef = (el) => {
+    this.myRef2 = el;
   };
 
+  handleClick = () => {
+    this.myRef2.focus();
+    console.log(this.myRef2);
+  }
+
   render() {
-    const { name, surname, link } = this.props;
-    const { years, position } = this.state;
     return (
-      <EmpItem active>
-        <Button onClick={() => this.prevYear()}>{"---"}</Button>
-        <BigButton onClick={this.nextYear}>{this.state.text}</BigButton>
-        <Header>
-          My name is {name}, surname - {surname}, age - {years}, position - {position}
-        </Header>
-        <BigButton as="a" href={link}>
-          My profile
-        </BigButton>
-        <form action="">
-          <span>Enter position</span>
-          <input type="text" onChange={(e) => this.commitInputChanges(e, "some color")} />
+      <Container>
+        <form className="w-50 border mt-5 p-3 m-auto">
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlInput1" className="form-label">
+              Email address
+            </label>
+            <input
+              ref={this.setInputRef}
+              type="email"
+              className="form-control"
+              id="exampleFormControlInput1"
+              placeholder="name@example.com"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlTextarea1" className="form-label">
+              Example textarea
+            </label>
+            <textarea onClick={this.handleClick} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
         </form>
-      </EmpItem>
-    );
-  }
-}
-
-const Wrapper = styled.div`
-  width: 600px;
-  margin: 80px auto 0;
-`;
-
-const DynamicGreating = (props) => {
-  return (
-    <div style={props.style} className={`mb-3 p-3 border border-${props.color}`}>
-      {React.Children.map(props.children, (child) => {
-        return React.cloneElement(child, { className: "shadow p-3 m-3 border rounded" });
-      })}
-    </div>
-  );
-};
-
-const HelloGreating = (props) => {
-  return (
-    <div>
-      {props.counter}
-      <DynamicGreating style={{ width: "600px", margin: "0 auto" }} color={"primary"}>
-        <h2>Hello there</h2>
-      </DynamicGreating>
-    </div>
-  );
-};
-
-const Message = (props) => {
-  return <h2>The counter is {props.counter}</h2>;
-};
-
-class Counter extends Component {
-  state = { counter: 0 };
-
-  changeCounter = () => {
-    this.setState(({ counter }) => ({
-      counter: counter + 1,
-    }));
-  };
-
-  render() {
-    return (
-      <>
-        <button className={`btn btn-primary`} onClick={this.changeCounter}>
-          click me
-        </button>
-        {this.props.render && this.props.render(this.state.counter)}
-        {this.props.some && this.props?.some(this.state.counter)}
-      </>
+      </Container>
     );
   }
 }
 
 function App() {
-  return (
-    <div className="App">
-      <Counter render={(counter) => (
-          <Message counter={counter}/>
-      )} some={(counter) => (
-        <>
-          <HelloGreating counter={counter}/>
-          <Message counter={counter}/>
-        </>
-      )}/>
-      <Counter render={(counter) => (
-          <Message counter={counter}/>
-      )}/>
-      <Wrapper>
-        <WhoIAm name={"John"} surname={"Smith"} link={"facebook.com"} />
-        <WhoIAm name={"Alex"} surname={"Jonson"} link={"linkedin.com"} />
-      </Wrapper>
-      <BootstrapGrid></BootstrapGrid>
-
-      <HelloGreating />
-      <DynamicGreating color={"primary"}>
-        <h1>header DynamicGreating</h1>
-        <h2>header h2 DynamicGreating</h2>
-      </DynamicGreating>
-    </div>
-  );
+  return <Form />;
 }
 
 export default App;
