@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -102,35 +102,71 @@ const Wrapper = styled.div`
 const DynamicGreating = (props) => {
   return (
     <div style={props.style} className={`mb-3 p-3 border border-${props.color}`}>
-      {
-        React.Children.map(props.children, child => {
-          return React.cloneElement(child, {className: "shadow p-3 m-3 border rounded"});
-        })
-      }
+      {React.Children.map(props.children, (child) => {
+        return React.cloneElement(child, { className: "shadow p-3 m-3 border rounded" });
+      })}
     </div>
-  )
+  );
 };
 
 const HelloGreating = (props) => {
   return (
     <div>
-      <DynamicGreating style={{"width":"600px", "margin": "0 auto"}} color={"primary"}>
+      {props.counter}
+      <DynamicGreating style={{ width: "600px", margin: "0 auto" }} color={"primary"}>
         <h2>Hello there</h2>
       </DynamicGreating>
     </div>
-  )
+  );
 };
+
+const Message = (props) => {
+  return <h2>The counter is {props.counter}</h2>;
+};
+
+class Counter extends Component {
+  state = { counter: 0 };
+
+  changeCounter = () => {
+    this.setState(({ counter }) => ({
+      counter: counter + 1,
+    }));
+  };
+
+  render() {
+    return (
+      <>
+        <button className={`btn btn-primary`} onClick={this.changeCounter}>
+          click me
+        </button>
+        {this.props.render && this.props.render(this.state.counter)}
+        {this.props.some && this.props?.some(this.state.counter)}
+      </>
+    );
+  }
+}
 
 function App() {
   return (
     <div className="App">
+      <Counter render={(counter) => (
+          <Message counter={counter}/>
+      )} some={(counter) => (
+        <>
+          <HelloGreating counter={counter}/>
+          <Message counter={counter}/>
+        </>
+      )}/>
+      <Counter render={(counter) => (
+          <Message counter={counter}/>
+      )}/>
       <Wrapper>
         <WhoIAm name={"John"} surname={"Smith"} link={"facebook.com"} />
         <WhoIAm name={"Alex"} surname={"Jonson"} link={"linkedin.com"} />
       </Wrapper>
       <BootstrapGrid></BootstrapGrid>
-      
-      <HelloGreating/>
+
+      <HelloGreating />
       <DynamicGreating color={"primary"}>
         <h1>header DynamicGreating</h1>
         <h2>header h2 DynamicGreating</h2>
