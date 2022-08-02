@@ -1,4 +1,4 @@
-import {Component, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {Container} from 'react-bootstrap';
 import './App.css';
 
@@ -12,16 +12,24 @@ import './App.css';
 //         }
 //     }
 //
+//     componentDidMount() {
+//         document.title = `Slide: ${this.state.slide}`;
+//     }
+//
+//     componentDidUpdate(prevProps, prevState, snapshot) {
+//         document.title = `Slide: ${this.state.slide}`;
+//     }
+//
 //     changeSlide = (i) => {
 //         this.setState(({slide}) => ({
 //             slide: slide + i
-//         }))
+//         }));
 //     }
 //
 //     toggleAutoplay = () => {
 //         this.setState(({autoplay}) => ({
 //             autoplay: !autoplay
-//         }))
+//         }));
 //     }
 //
 //     render() {
@@ -47,14 +55,29 @@ import './App.css';
 //     }
 // }
 
-const calcValue = () => {
-    console.log("Random");
-    return Math.random() * (50 - 1) + 1;
-}
-
-const SliderHook = (props) => {
-    const [slide, setSlide] = useState(calcValue);
+const SliderHook = () => {
+    const [slide, setSlide] = useState(0);
     const [autoplay, setAutoplay] = useState(false);
+    const getSomeImg = useCallback(() => {
+        console.log("Fetching");
+        return [
+            "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
+            "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
+        ]
+    }, []);
+
+    const logging = () => {
+        // console.log("Log!");
+    }
+
+    useEffect(() => {
+        document.title = `Slide: ${slide}`;
+
+        window.addEventListener("click", logging);
+        return () => {
+            window.removeEventListener("click", logging);
+        }
+    }, [slide]);
 
     const changeSlide = (i) => {
         setSlide(slide => slide + i);
@@ -68,6 +91,9 @@ const SliderHook = (props) => {
         <Container>
             <div className="slider w-50 m-auto">
                 <img className="d-block w-100" src="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg" alt="slide" />
+
+                <Slide getSomeImg={getSomeImg}/>
+
                 <div className="text-center mt-5">Active slide {slide} <br/> {autoplay ? 'auto' : null}</div>
                 <div className="text-center buttons mt-3">
                     <button
@@ -88,11 +114,33 @@ const SliderHook = (props) => {
     )
 }
 
+const Slide = ({getSomeImg}) => {
+    const [images, setImages] = useState([]);
+
+    useEffect(() => {
+        setImages(getSomeImg())
+    }, [getSomeImg])
+
+    return (
+      <>
+          {images.map((url, i) => (
+            <img key={i} className="d-block w-100" src={url} alt="slide" />
+          ))}
+      </>
+    )
+}
 
 function App() {
-  return (
-        <SliderHook/>
-  );
+    const [slider, setSlider] = useState(true);
+
+    return (
+        <>
+            <button onClick={() => setSlider(false)}>Remove slider</button>
+            {
+                slider ? <SliderHook/> : null
+            }
+        </>
+    );
 }
 
 export default App;
