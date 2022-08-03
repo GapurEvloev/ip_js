@@ -1,24 +1,24 @@
-import React, { useRef } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { Container } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Form = () => {
-  const myRef = useRef(null);
+  const [text, setText] = useState("");
+  const myRef = useRef(1);
 
-  const handleClick = () => {
-    myRef.current.focus();
-  }
+  useEffect(() => console.log(myRef.current))
 
   return (
     <Container>
-      <form onClick={handleClick} className="w-50 border mt-5 p-3 m-auto" style={{overflow: 'hidden', position: 'relative'}}>
+      <form className="w-50 border mt-5 p-3 m-auto" style={{overflow: 'hidden', position: 'relative'}}>
         <div className="mb-3">
           <label htmlFor="exampleFormControlInput1" className="form-label">
             Email address
           </label>
           <input
-            ref={myRef}
+            onChange={(e) => setText(e.target.value)}
+            value={text}
             type="email"
             className="form-control"
             id="exampleFormControlInput1"
@@ -29,7 +29,7 @@ const Form = () => {
           <label htmlFor="exampleFormControlTextarea1" className="form-label">
             Example textarea
           </label>
-          <textarea onClick={handleClick} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <textarea onClick={() => myRef.current + 1} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
       </form>
     </Container>
