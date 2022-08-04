@@ -4,7 +4,6 @@ export const useHttp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  console.log("useHttp() called")
   const request = useCallback(
     async (
       url,
