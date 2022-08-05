@@ -17,21 +17,21 @@ const App = () => {
 
   return (
     <div className="app">
-      <AppHeader />
+      {/*<AppHeader />*/}
       <main>
-        {/*<ErrorBoundary>*/}
-        {/*  <RandomChar />*/}
-        {/*</ErrorBoundary>*/}
-        {/*<div className="char__content">*/}
-        {/*  <ErrorBoundary>*/}
-        {/*    <CharList selectedChar={selectedChar} onSelectChar={onSelectChar} />*/}
-        {/*  </ErrorBoundary>*/}
-        {/*  <ErrorBoundary>*/}
-        {/*    <CharInfo charId={selectedChar}/>*/}
-        {/*  </ErrorBoundary>*/}
-        {/*</div>*/}
-        {/*<img className="bg-decoration" src={decoration} alt="vision" />*/}
-        <Comics/>
+        <ErrorBoundary>
+          <RandomChar />
+        </ErrorBoundary>
+        <div className="char__content">
+          <ErrorBoundary>
+            <CharList selectedChar={selectedChar} onSelectChar={onSelectChar} />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <CharInfo charId={selectedChar}/>
+          </ErrorBoundary>
+        </div>
+        <img className="bg-decoration" src={decoration} alt="vision" />
+        {/*<Comics/>*/}
       </main>
     </div>
   );

@@ -30,6 +30,7 @@ const CharList = ({selectedChar, onSelectChar}) => {
     setOffset(offset => offset + 9);
     setCharsEnded(ended);
   }
+  console.log("charList");
 
   const updateAllChars = (offset, initial) => {
     initial ? setNewItemsLoading(false) : setNewItemsLoading(true);
