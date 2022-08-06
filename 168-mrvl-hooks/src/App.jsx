@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 import AppHeader from "./components/appHeader/AppHeader";
 
@@ -10,14 +10,10 @@ const App = () => {
       <div className="app">
         <AppHeader />
         <main>
-          <Switch>
-            <Route exact path="/">
-              <Main/>
-            </Route>
-            <Route exact path="/comics">
-              <Comics/>
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Main/>} />
+            <Route path="/comics" element={<Comics/>} />
+          </Routes>
         </main>
       </div>
     </Router>
