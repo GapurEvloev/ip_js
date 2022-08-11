@@ -1,3 +1,26 @@
+.modal {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 1300ms;
+}
+.modal-enter {
+  opacity: 0;
+  transform: translateY(200px);
+}
+.modal-enter-active, .modal-enter-done {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+.modal-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.modal-exit-active, .modal-exit-done {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(200px);
+}
 
 .App {
   text-align: center;
