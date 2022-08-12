@@ -5,6 +5,12 @@ import ComicsItem from "./ComicsListItem";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Spinner from "../spinner/Spinner";
 
+import {
+  TransitionGroup,
+  CSSTransition,
+} from 'react-transition-group';
+
+
 const ComicsList = () => {
   const [comics, setComics] = useState([]);
   const [offset, setOffset] = useState(210);
@@ -38,13 +44,17 @@ const ComicsList = () => {
   function renderItems (arr) {
     const items = arr.map((item, i) => {
       return (
-        <ComicsItem key={i} {...item} />
+        <CSSTransition key={i}  timeout={500} classNames="comics__item">
+          <ComicsItem {...item} />
+        </CSSTransition>
       )
     })
 
     return (
       <ul className="comics__grid">
-        {items}
+        <TransitionGroup component={null}>
+          {items}
+        </TransitionGroup>
       </ul>
     )
   }

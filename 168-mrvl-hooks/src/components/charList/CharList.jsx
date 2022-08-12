@@ -7,6 +7,11 @@ import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import PropTypes from "prop-types";
 
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
+
 const CharList = ({selectedChar, onSelectChar}) => {
   const [chars, setChars] = useState([]);
   const [newItemsLoading, setNewItemsLoading] = useState(false);
@@ -61,11 +66,17 @@ const CharList = ({selectedChar, onSelectChar}) => {
 const View = ({chars, onSelectChar, selectedChar}) => {
     return (
       <ul className="char__grid">
-        {
-          chars.map((char) => {
-            return <CharListItem selectedChar={selectedChar} onSelectChar={onSelectChar} key={char.id} {...char}/>
-          })
-        }
+        <TransitionGroup component={null}>
+          {
+            chars.map((char) => {
+              return (
+                <CSSTransition key={char.id} timeout={500} classNames="char__item">
+                  <CharListItem selectedChar={selectedChar} onSelectChar={onSelectChar} {...char}/>
+                </CSSTransition>
+              )
+            })
+          }
+        </TransitionGroup>
       </ul>
     )
 }
