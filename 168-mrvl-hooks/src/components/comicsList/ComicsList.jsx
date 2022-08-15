@@ -10,6 +10,20 @@ import {
   CSSTransition,
 } from 'react-transition-group';
 
+const setContent = (process, Component, newItemsLoading) => {
+  switch (process) {
+    case "waiting":
+      return <Spinner/>;
+    case "loading":
+      return newItemsLoading ? <Component/> : <Spinner/>;
+    case "confirmed":
+      return <Component/>;
+    case "error":
+      return <ErrorMessage/>;
+    default:
+      throw new Error("Unexpected process state");
+  }
+}
 
 const ComicsList = () => {
   const [comics, setComics] = useState([]);
@@ -17,7 +31,7 @@ const ComicsList = () => {
   const [newItemsLoading, setNewItemsLoading] = useState(false);
   const [comicsEnded, setComicsEnded] = useState(false);
 
-  const {loading, error, getAllComics} = useMarvelService();
+  const {process, setProcess, getAllComics} = useMarvelService();
 
   useEffect(() => {
     updateAllComics(offset, true);
@@ -38,7 +52,8 @@ const ComicsList = () => {
   const updateAllComics = (offset, initial) => {
     initial ? setNewItemsLoading(false) : setNewItemsLoading(true);
     getAllComics(offset)
-      .then(onComicsLoaded);
+      .then(onComicsLoaded)
+      .then(() => setProcess("confirmed"));
   };
 
   function renderItems (arr) {
@@ -59,15 +74,9 @@ const ComicsList = () => {
     )
   }
 
-  const items = renderItems(comics);
-  const errorMessage = error ? <ErrorMessage/> : null;
-  const spinner = loading && !newItemsLoading ? <Spinner/> : null;
-
   return (
     <div className="comics__list">
-      {errorMessage}
-      {spinner}
-      {items}
+      {setContent(process, () => renderItems(comics), newItemsLoading)}
       <button disabled={newItemsLoading} hidden={comicsEnded} onClick={() => updateAllComics(offset)} className="button button__main button__long">
         <div className="inner">load more</div>
       </button>
