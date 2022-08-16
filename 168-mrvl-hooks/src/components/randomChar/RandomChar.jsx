@@ -17,6 +17,7 @@ const RandomChar = () => {
     return () => {
       // clearInterval(charUpdateTimer);
     }
+    // eslint-disable-next-line
   }, []);
 
   const onCharLoaded = (char) => {

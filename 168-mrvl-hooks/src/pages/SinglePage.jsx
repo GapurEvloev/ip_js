@@ -16,7 +16,8 @@ const SinglePage = ({Component, dataType}) => {
   const {process, setProcess, getComics, getCharacter, clearError} = useMarvelService();
 
   useEffect(() => {
-    updateData()
+    updateData();
+    // eslint-disable-next-line
   }, [id])
 
   const updateData = () => {
@@ -32,6 +33,9 @@ const SinglePage = ({Component, dataType}) => {
         getCharacter(id)
           .then(onDataLoaded)
           .then(() => setProcess("confirmed"));
+        break;
+      default:
+        throw new Error("Unexpected process state");
     }
   }
 

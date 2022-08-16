@@ -38,6 +38,7 @@ const CharList = ({selectedChar, onSelectChar}) => {
 
   useEffect(() => {
     updateAllChars(offset, true);
+    // eslint-disable-next-line
   }, []);
 
   const onCharsLoaded = (newChars) => {
@@ -75,21 +76,22 @@ const CharList = ({selectedChar, onSelectChar}) => {
 };
 
 const View = ({chars, onSelectChar, selectedChar}) => {
-    return (
-      <ul className="char__grid">
-        <TransitionGroup component={null}>
-          {
-            chars.map((char) => {
-              return (
-                <CSSTransition key={char.id} timeout={500} classNames="char__item">
-                  <CharListItem selectedChar={selectedChar} onSelectChar={onSelectChar} {...char}/>
-                </CSSTransition>
-              )
-            })
-          }
-        </TransitionGroup>
-      </ul>
-    )
+  console.log("render")
+  return (
+    <ul className="char__grid">
+      <TransitionGroup component={null}>
+        {
+          chars.map((char) => {
+            return (
+              <CSSTransition key={char.id} timeout={500} classNames="char__item">
+                <CharListItem selectedChar={selectedChar} onSelectChar={onSelectChar} {...char}/>
+              </CSSTransition>
+            )
+          })
+        }
+      </TransitionGroup>
+    </ul>
+  )
 }
 
 CharList.propTypes = {
