@@ -1,68 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {createStore} from "redux";
+import {createStore, bindActionCreators} from "redux";
 
-const initialState = {
-  value: 0
-};
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "INC":
-      return {
-        ...state,
-        value: state.value + 1
-      };
-    case "DEC":
-      return {
-        ...state,
-        value: state.value - 1
-      };
-    case "RND":
-      return {
-        ...state,
-        value: state.value  * action.payload
-      };
-    case "RESET":
-      return {
-        ...state,
-        value: 0
-      };
-    default:
-      return state;
-  }
-};
+import reducer from "./reducer";
+import * as actions from "./actions";
 
 const store = createStore(reducer);
+const { dispatch, subscribe, getState } = store;
 
-const update = () => {
-  document.getElementById("counter").textContent = store.getState().value;
-}
+const update = () => document.getElementById("counter").textContent = getState().value;
+subscribe(update);
 
-store.subscribe(update);
+// const bindActionCreator = (creator, dispatch) => (...args) => {
+//   dispatch(creator(...args));
+// }
 
-const action = (type) => ({type: type});
-const actionRnd = (type, payload) => ({type: type, payload});
+const {actionDec, actionInc, actionRnd, actionReset} = bindActionCreators(actions, dispatch);
 
-document.getElementById("inc").addEventListener("click", () => {
-  store.dispatch(action("INC"));
-});
-document.getElementById("dec").addEventListener("click", () => {
-  store.dispatch(action("DEC"))
-});
+// const incDispatch = bindActionCreators(actionInc, dispatch);
+// const rndDispatch = bindActionCreators(actionRnd, dispatch);
+// const resetDispatch = bindActionCreators(actionReset, dispatch);
+
+document.getElementById("dec").addEventListener("click", actionDec);
+document.getElementById("inc").addEventListener("click", actionInc);
 document.getElementById("rnd").addEventListener("click", () => {
   const value = Math.floor(Math.random() * 10);
-  store.dispatch(actionRnd("RND", value));
+  actionRnd(value);
 });
-document.getElementById("reset").addEventListener("click", () => {
-  store.dispatch(action("RESET"))
-});
-
-// let state = reducer(initialState, {type: "INC"});
-// state = reducer(state, {type: "INC"});
-// state = reducer(state, {type: "INC"});
-// state = reducer(state, {type: "INC"});
-// console.log(state);
+document.getElementById("reset").addEventListener("click", actionReset);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
