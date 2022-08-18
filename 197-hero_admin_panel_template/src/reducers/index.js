@@ -25,7 +25,7 @@ const reducer = (state = initialState, action) => {
         case 'HERO_DELETE':
             return {
                 ...state,
-                heroes: state.heroes.filter(hero => hero.name !== action.payload),
+                heroes: state.heroes.filter(hero => hero.id !== action.payload),
                 heroesLoadingStatus: 'idle'
             }
         default: return state
