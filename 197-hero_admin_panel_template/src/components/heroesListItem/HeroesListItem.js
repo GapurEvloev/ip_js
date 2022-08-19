@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import {heroDelete} from "../../actions";
+import { heroDelete } from "../../actions";
 
 import {useHttp} from '../../hooks/http.hook';
 
@@ -8,8 +8,9 @@ const HeroesListItem = ({id, name, description, element}) => {
     const {request} = useHttp();
 
     const handleHeroDelete = () => {
-        request(`http://localhost:3001/heroes/${id}`, 'DELETE');
-        dispatch(heroDelete(id));
+        request(`http://localhost:3001/heroes/${id}`, 'DELETE')
+          .then(dispatch(heroDelete(id)))
+          .catch(err => console.log(err));
     }
 
     let elementClassName;
