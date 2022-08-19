@@ -17,6 +17,12 @@
       "name": "Морской герой",
       "description": "Как аквамен, но не из DC",
       "element": "water"
+    },
+    {
+      "id": "6b27680c-7482-4f24-95e1-75ee931f13f1",
+      "name": "Gapur",
+      "description": "asdf",
+      "element": "fire"
     }
   ],
   "filters": [

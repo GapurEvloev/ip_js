@@ -7,13 +7,6 @@ import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import {createSelector} from "reselect";
-import filters from "../../reducers/filters";
-import heroes from "../../reducers/heroes";
-
-// Задача для этого компонента:
-// При клике на "крестик" идет удаление персонажа из общего состояния
-// Усложненная задача:
-// Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
     const filteredHeroesSelector = createSelector(
@@ -36,12 +29,12 @@ const HeroesList = () => {
     //         return state.heroes.heroes.filter(hero => hero.element === state.filters.activeFilter);
     //     }
     // });
-    const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus);
+    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(heroesFetching());
+        dispatch("HEROES_FETCHING");
         request("http://localhost:3001/heroes")
             .then(data => dispatch(heroesFetched(data)))
             .catch(() => dispatch(heroesFetchingError()))
